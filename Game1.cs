@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Collections.Generic;
 
 namespace MonoGameTutorial
 {
@@ -10,8 +11,8 @@ namespace MonoGameTutorial
         private SpriteBatch _spriteBatch;
 
 
-        Sprite sprite;
-       
+      
+       List<Sprite> _sprites;
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
@@ -32,7 +33,14 @@ namespace MonoGameTutorial
 
             // TODO: use this.Content to load your game content here
             Texture2D texture = Content.Load<Texture2D>("yotsuba");
-            sprite = new Sprite(texture, Vector2.Zero);
+            
+
+            _sprites = new List<Sprite>();
+
+            for (int i = 0; i < 10; i++)
+            {
+                _sprites.Add(new MovingSprite(texture, new Vector2(0, 10*i), i));
+            }
           
         }
 
@@ -42,6 +50,8 @@ namespace MonoGameTutorial
                 Exit();
 
             // TODO: Add your update logic here
+            foreach( MovingSprite sprite in _sprites)
+            sprite.Update();
 
             base.Update(gameTime);
         }
@@ -54,7 +64,8 @@ namespace MonoGameTutorial
             _spriteBatch.Begin(samplerState: SamplerState.PointClamp);
 
             //_spriteBatch.Draw(texture, new Rectangle(100,100, 100, 200), Color.White);
-            _spriteBatch.Draw(sprite.texture, sprite.position, Color.White);
+            foreach (MovingSprite sprite in _sprites)
+                _spriteBatch.Draw(sprite.texture, sprite.Rect, Color.White);
 
             _spriteBatch.End();
 

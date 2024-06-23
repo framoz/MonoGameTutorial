@@ -19,5 +19,10 @@ namespace MonoGameTutorial
             this.texture = texture;
             this.position = position; 
         }
+
+        public virtual void Update()
+        {
+
+        }
     }
 }
